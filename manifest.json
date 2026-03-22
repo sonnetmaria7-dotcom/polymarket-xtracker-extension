@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Polymarket XTracker Pace Overlay",
+  "version": "0.1.0",
+  "description": "在 Polymarket 推文计数市场页面标注当前推文数与落入各区间所需的日均发文速度。",
+  "permissions": [],
+  "host_permissions": [
+    "https://polymarket.com/*",
+    "https://xtracker.polymarket.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://polymarket.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

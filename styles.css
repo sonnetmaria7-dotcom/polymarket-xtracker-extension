@@ -1,0 +1,56 @@
+:root {
+  --xtracker-accent: #11c59b;
+  --xtracker-accent-soft: rgba(17, 197, 155, 0.14);
+  --xtracker-border: rgba(255, 255, 255, 0.12);
+}
+
+.xtracker-overlay-summary {
+  margin: 12px 0 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--xtracker-border);
+  background: linear-gradient(135deg, rgba(17, 197, 155, 0.16), rgba(17, 197, 155, 0.05));
+  color: inherit;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.xtracker-overlay-summary strong {
+  color: var(--xtracker-accent);
+}
+
+.xtracker-overlay-badge {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--xtracker-accent-soft);
+  border: 1px solid rgba(17, 197, 155, 0.32);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.xtracker-overlay-badge--hit {
+  background: rgba(17, 197, 155, 0.18);
+}
+
+.xtracker-overlay-badge--low {
+  background: rgba(255, 193, 7, 0.12);
+  border-color: rgba(255, 193, 7, 0.35);
+}
+
+.xtracker-overlay-badge--dead {
+  background: rgba(255, 99, 132, 0.12);
+  border-color: rgba(255, 99, 132, 0.35);
+}
+
+.xtracker-overlay-tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(17, 197, 155, 0.14);
+  color: var(--xtracker-accent);
+  font-size: 11px;
+  font-weight: 600;
+  vertical-align: middle;
+}
