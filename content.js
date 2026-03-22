@@ -2,7 +2,6 @@ const USERS_API = 'https://xtracker.polymarket.com/api/users';
 const TRACKING_API = (id) => `https://xtracker.polymarket.com/api/trackings/${id}?includeStats=true`;
 const SUMMARY_ID = 'xtracker-overlay-summary';
 const BADGE_CLASS = 'xtracker-overlay-badge';
-const TAG_CLASS = 'xtracker-overlay-tag';
 
 let cachedUsers = null;
 let cachedTracking = null;
@@ -204,7 +203,7 @@ function describeRange(range, total, remainingDays) {
 }
 
 function clearBadges() {
-  document.querySelectorAll(`.${BADGE_CLASS}, .${TAG_CLASS}`).forEach((node) => node.remove());
+  document.querySelectorAll(`.${BADGE_CLASS}`).forEach((node) => node.remove());
 }
 
 function cleanupCardLayoutArtifacts() {
@@ -228,14 +227,6 @@ function renderBadges(tracking) {
   for (const { labelNode, text } of outcomes) {
     const range = parseRange(text);
     if (!range) continue;
-
-    const existingTag = labelNode.querySelector(`.${TAG_CLASS}`);
-    if (!existingTag) {
-      const tag = document.createElement('span');
-      tag.className = TAG_CLASS;
-      tag.textContent = 'XTracker';
-      labelNode.appendChild(tag);
-    }
 
     const desc = describeRange(range, total, remainingDays);
     const badge = document.createElement('span');
