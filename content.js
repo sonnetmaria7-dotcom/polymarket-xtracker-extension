@@ -133,6 +133,20 @@ function buildSummary(tracking) {
   target.parentElement?.insertBefore(wrapper, target.nextSibling);
 }
 
+function isTradingPanel(card) {
+  if (!card) return false;
+  const text = (card.textContent || '').replace(/\s+/g, ' ').trim();
+  return [
+    'Limit Price',
+    'Shares',
+    'Set Expiration',
+    'Balance $',
+    'Buy Sell',
+    'To win',
+    'Total'
+  ].some((part) => text.includes(part));
+}
+
 function findOutcomeNodes() {
   const candidates = [...document.querySelectorAll('p, span, div')];
   const hits = [];
@@ -155,6 +169,7 @@ function findOutcomeNodes() {
     }
 
     if (!card) continue;
+    if (isTradingPanel(card)) continue;
     if (seen.has(card)) continue;
     seen.add(card);
     hits.push({ labelNode: node, card, text });
@@ -174,12 +189,12 @@ function describeRange(range, total, remainingDays) {
 
   if (total >= range.lower && total <= range.upper) {
     if (range.upper === Infinity) {
-      return { cls: 'hit', text: '当前已在该区间内' };
+      return { cls: 'hit', text: '当前区间' };
     }
     const maxStayPerDay = (range.upper - total) / remainingDays;
     return {
       cls: 'hit',
-      text: `当前已在区间内；之后平均 ≤ ${formatNum(maxStayPerDay, 1)} 条/天，才有机会继续留在这里`
+      text: `≤ ${formatNum(maxStayPerDay, 1)} 条/天`
     };
   }
 
