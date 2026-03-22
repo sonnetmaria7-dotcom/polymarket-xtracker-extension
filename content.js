@@ -207,34 +207,47 @@ function clearBadges() {
   document.querySelectorAll(`.${BADGE_CLASS}, .${TAG_CLASS}`).forEach((node) => node.remove());
 }
 
+function cleanupCardLayoutArtifacts() {
+  document.querySelectorAll('[data-xtracker-card-patched="1"]').forEach((card) => {
+    card.style.display = '';
+    card.style.gridTemplateColumns = '';
+    card.style.gap = '';
+    delete card.dataset.xtrackerCardPatched;
+  });
+}
+
 function renderBadges(tracking) {
   if (!tracking?.stats) return;
   clearBadges();
+  cleanupCardLayoutArtifacts();
 
   const total = Number(tracking.stats.total ?? tracking.stats.cumulative ?? 0);
   const remainingDays = getRemainingDays(tracking.endDate);
   const outcomes = findOutcomeNodes();
 
-  for (const { labelNode, card, text } of outcomes) {
+  for (const { labelNode, text } of outcomes) {
     const range = parseRange(text);
     if (!range) continue;
 
-    const tag = document.createElement('span');
-    tag.className = TAG_CLASS;
-    tag.textContent = 'XTracker';
-    labelNode.appendChild(tag);
+    const existingTag = labelNode.querySelector(`.${TAG_CLASS}`);
+    if (!existingTag) {
+      const tag = document.createElement('span');
+      tag.className = TAG_CLASS;
+      tag.textContent = 'XTracker';
+      labelNode.appendChild(tag);
+    }
 
     const desc = describeRange(range, total, remainingDays);
-    const badge = document.createElement('div');
+    const badge = document.createElement('span');
     badge.className = `${BADGE_CLASS} ${BADGE_CLASS}--${desc.cls}`;
     badge.textContent = desc.text;
-
-    card.appendChild(badge);
+    labelNode.appendChild(badge);
   }
 }
 
 function showNotSupported(message) {
   clearBadges();
+  cleanupCardLayoutArtifacts();
   const existing = document.getElementById(SUMMARY_ID);
   existing?.remove();
   const target = findTitleElement()?.closest('div');
