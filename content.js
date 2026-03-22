@@ -121,13 +121,15 @@ function buildSummary(tracking) {
 
   const total = Number(tracking.stats.total ?? tracking.stats.cumulative ?? 0);
   const remainingDays = getRemainingDays(tracking.endDate);
+  const daysElapsed = Number(tracking.stats.daysElapsed ?? 0);
+  const dailyAverage = daysElapsed > 0 ? total / daysElapsed : 0;
   const wrapper = document.createElement('div');
   wrapper.id = SUMMARY_ID;
   wrapper.className = 'xtracker-overlay-summary';
   wrapper.innerHTML = `
     <div><strong>XTracker</strong>：@${tracking.user?.handle || 'unknown'} ｜ 当前已发 <strong>${total}</strong> 条</div>
     <div>区间：${new Date(tracking.startDate).toLocaleString()} → ${new Date(tracking.endDate).toLocaleString()}</div>
-    <div>剩余时间：<strong>${formatNum(remainingDays, 2)}</strong> 天 ｜ 数据源：xtracker.polymarket.com</div>
+    <div>剩余时间：<strong>${formatNum(remainingDays, 2)}</strong> 天 ｜ Daily Average：<strong>${formatNum(dailyAverage, 1)}</strong> 条/天</div>
   `;
 
   target.parentElement?.insertBefore(wrapper, target.nextSibling);
